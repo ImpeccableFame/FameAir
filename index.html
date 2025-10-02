@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FameAir</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-plane-departure"></i>
+                FameAir
+            </a>
+            
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Flights <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="flight.html">Arrivals</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Departures</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Flight Tracker</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Airlines & Destinations</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Passenger Info <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="passenger-info.html">Check-in & Security</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Baggage</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Special Assistance</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Travel Guidelines</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Lost & Found</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Getting Here <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="getting-here.html">Parking</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Public Transport</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Taxis & Rides</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Car Rentals & Shuttles</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Maps & Facilities <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="map&facilities.html">Terminal Maps</a></li>
+                        <li class="dropdown-item"><a href="map&facilities.html">Shops & Dining</a></li>
+                        <li class="dropdown-item"><a href="map&facilities.html">Services & Amenities</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        About Us <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="about_us.html">Overview</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">News</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">Careers</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">Business & Investors</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>Welcome to FameAir International <br>Your Gateway to the World</h1>
+            <p>Check flights, plan your journey, and explore airport services with ease and convenience.</p>
+            <div class="hero-buttons">
+                <a href="login.html" class="btn btn-primary">Get Started</a>
+                <a href="flight.html" class="btn btn-secondary">View Arrivals & Departures</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <a href="#content" aria-label="Scroll down">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="flight.html">Flights</a></li>
+                    <li><a href="passenger-info.html">Passenger Info</a></li>
+                    <li><a href="getting-here.html">Getting Here</a></li>
+                    <li><a href="map&facilities.html">Maps & Facilities</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Details</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> info@fameair.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Airport, City, State 12345</p>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for the latest updates and travel information.</p>
+                <form style="margin-top: 15px;">
+                    <input type="email" placeholder="Your email address" style="padding: 10px; width: 100%; border: none; border-radius: 4px; margin-bottom: 10px;">
+                    <button type="submit" style="background-color: var(--primary-blue); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; width: 100%;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 FameAir. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

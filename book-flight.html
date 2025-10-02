@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Flight | FameAir </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0056b3;
+            --dark-blue: #003d82;
+            --light-blue: #e6f0ff;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #333333;
+            --text-gray: #666666;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--white);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                              url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+            /*background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));*/
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Booking Form */
+        .booking-section {
+            padding: 50px 0;
+        }
+
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .booking-form {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 5px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option input {
+            margin: 0;
+        }
+
+        .passenger-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .passenger-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .passenger-btn:hover {
+            background-color: var(--medium-gray);
+        }
+
+        .passenger-count {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .form-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Flight Offers */
+        .offers-section {
+            background-color: var(--light-gray);
+            padding: 50px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--dark-gray);
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .offer-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .offer-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .offer-price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .offer-destination {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .offer-body {
+            padding: 20px;
+        }
+
+        .offer-details {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .offer-details li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .offer-details li:last-child {
+            border-bottom: none;
+        }
+
+        .offer-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-tag {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Why Book With Us */
+        .benefits-section {
+            padding: 50px 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+        }
+
+        .benefit-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+
+        .benefit-description {
+            color: var(--text-gray);
+        }
+
+        /* Call to Action */
+        .cta-section {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 992px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .offers-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-banner p {
+                font-size: 1rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .booking-form {
+                padding: 20px;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .offer-card {
+                margin: 0 auto;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-plane-departure"></i>
+                FameAir
+            </a>
+            
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Flights <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="flight.html">Arrivals</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Departures</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Flight Tracker</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Airlines & Destinations</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Passenger Info <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="passenger-info.html">Check-in & Security</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Baggage</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Special Assistance</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Travel Guidelines</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Lost & Found</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Getting Here <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="getting-here.html">Parking</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Public Transport</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Taxis & Rides</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Car Rentals & Shuttles</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Maps & Facilities <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="map&facilities.html">Terminal Maps</a></li>
+                        <li class="dropdown-item"><a href="map&facilities.html">Shops & Dining</a></li>
+                        <li class="dropdown-item"><a href="map&facilities.html">Services & Amenities</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        About Us <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="about_us.html">Overview</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">News</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">Careers</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">Business & Investors</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="container">
+            <h1>Book Your Flight</h1>
+            <p>Find the best deals and book your next journey with ease</p>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="booking-section">
+        <div class="container">
+            <div class="booking-container">
+                <div class="booking-form">
+                    <h2 class="form-title"><i class="fas fa-plane"></i> Flight Search</h2>
+                    
+                    <form id="flight-search-form">
+                        <div class="form-group">
+                            <label for="trip-type">Trip Type</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="trip-type" value="roundtrip" checked>
+                                    Round Trip
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="trip-type" value="oneway">
+                                    One Way
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="trip-type" value="multicity">
+                                    Multi-City
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="from">From</label>
+                                <select class="form-control" id="from" required>
+                                    <option value="">Select departure city</option>
+                                    <option value="JFK">New York (JFK)</option>
+                                    <option value="LAX">Los Angeles (LAX)</option>
+                                    <option value="ORD">Chicago (ORD)</option>
+                                    <option value="DFW">Dallas (DFW)</option>
+                                    <option value="MIA">Miami (MIA)</option>
+                                    <option value="ATL">Atlanta (ATL)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="to">To</label>
+                                <select class="form-control" id="to" required>
+                                    <option value="">Select destination city</option>
+                                    <option value="LHR">London (LHR)</option>
+                                    <option value="CDG">Paris (CDG)</option>
+                                    <option value="FRA">Frankfurt (FRA)</option>
+                                    <option value="DXB">Dubai (DXB)</option>
+                                    <option value="SIN">Singapore (SIN)</option>
+                                    <option value="NRT">Tokyo (NRT)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="departure">Departure Date</label>
+                                <input type="date" class="form-control" id="departure" required>
+                            </div>
+                            
+                            <div class="form-group" id="return-date-group">
+                                <label for="return">Return Date</label>
+                                <input type="date" class="form-control" id="return">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Passengers</label>
+                            <div class="passenger-controls">
+                                <button type="button" class="passenger-btn" id="decrease-adults">-</button>
+                                <span class="passenger-count" id="adults-count">1</span> Adult
+                                <button type="button" class="passenger-btn" id="increase-adults">+</button>
+                                
+                                <button type="button" class="passenger-btn" id="decrease-children">-</button>
+                                <span class="passenger-count" id="children-count">0</span> Children
+                                <button type="button" class="passenger-btn" id="increase-children">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class">Travel Class</label>
+                            <select class="form-control" id="class">
+                                <option value="economy">Economy</option>
+                                <option value="premium">Premium Economy</option>
+                                <option value="business">Business</option>
+                                <option value="first">First Class</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large" style="flex: 1;">
+                                <i class="fas fa-search"></i> Search Flights
+                            </button>
+                            <button type="button" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div>
+                    <h2 class="form-title"><i class="fas fa-percent"></i> Special Offers</h2>
+                    <div class="offer-card">
+                        <div class="offer-header">
+                            <div class="offer-price">$499</div>
+                            <div class="offer-destination">New York to London</div>
+                        </div>
+                        <div class="offer-body">
+                            <ul class="offer-details">
+                                <li><span>Airline:</span> <span>British Airways</span></li>
+                                <li><span>Duration:</span> <span>7h 15m</span></li>
+                                <li><span>Valid until:</span> <span>Dec 15, 2025</span></li>
+                            </ul>
+                            <div class="offer-features">
+                                <span class="feature-tag">Free Cancellation</span>
+                                <span class="feature-tag">Meal Included</span>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flight Offers -->
+    <section class="offers-section">
+        <div class="container">
+            <h2 class="section-title">Popular Flight Deals</h2>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-price">$349</div>
+                        <div class="offer-destination">Chicago to Paris</div>
+                    </div>
+                    <div class="offer-body">
+                        <ul class="offer-details">
+                            <li><span>Airline:</span> <span>Air France</span></li>
+                            <li><span>Duration:</span> <span>8h 30m</span></li>
+                            <li><span>Valid until:</span> <span>Nov 30, 2025</span></li>
+                        </ul>
+                        <div class="offer-features">
+                            <span class="feature-tag">1 Free Bag</span>
+                            <span class="feature-tag">WiFi Available</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Book Now</button>
+                    </div>
+                </div>
+                
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-price">$599</div>
+                        <div class="offer-destination">Los Angeles to Tokyo</div>
+                    </div>
+                    <div class="offer-body">
+                        <ul class="offer-details">
+                            <li><span>Airline:</span> <span>Japan Airlines</span></li>
+                            <li><span>Duration:</span> <span>11h 20m</span></li>
+                            <li><span>Valid until:</span> <span>Jan 10, 2026</span></li>
+                        </ul>
+                        <div class="offer-features">
+                            <span class="feature-tag">Premium Seats</span>
+                            <span class="feature-tag">Entertainment</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Book Now</button>
+                    </div>
+                </div>
+                
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="offer-price">$429</div>
+                        <div class="offer-destination">Miami to Madrid</div>
+                    </div>
+                    <div class="offer-body">
+                        <ul class="offer-details">
+                            <li><span>Airline:</span> <span>Iberia</span></li>
+                            <li><span>Duration:</span> <span>8h 45m</span></li>
+                            <li><span>Valid until:</span> <span>Feb 28, 2026</span></li>
+                        </ul>
+                        <div class="offer-features">
+                            <span class="feature-tag">Flexible Dates</span>
+                            <span class="feature-tag">Lounge Access</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Book With Us -->
+    <section class="benefits-section">
+        <div class="container">
+            <h2 class="section-title">Why Book With Us?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="benefit-title">Secure Booking</h3>
+                    <p class="benefit-description">Your personal and payment information is protected with industry-standard encryption.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h3 class="benefit-title">Best Price Guarantee</h3>
+                    <p class="benefit-description">We guarantee you'll find the best deals or we'll match the lower price.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="benefit-title">24/7 Support</h3>
+                    <p class="benefit-description">Our customer service team is available around the clock to assist you.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3 class="benefit-title">Flexible Changes</h3>
+                    <p class="benefit-description">Easily modify your booking with our flexible change policies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Ready to Take Off?</h2>
+            <p class="cta-description">Book your flight today and start your next adventure. With our best-price guarantee and 24/7 customer support, you can travel with confidence.</p>
+            <a href="book-flight.html" class="btn btn-secondary btn-large">Book Your Flight Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="flight.html">Flights</a></li>
+                    <li><a href="passenger-info.html">Passenger Info</a></li>
+                    <li><a href="getting-here.html">Getting Here</a></li>
+                    <li><a href="map&facilities.html">Maps & Facilities</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Details</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> info@fameair.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Airport, City, State 12345</p>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for the latest updates and travel information.</p>
+                <form style="margin-top: 15px;">
+                    <input type="email" placeholder="Your email address" style="padding: 10px; width: 100%; border: none; border-radius: 4px; margin-bottom: 10px;">
+                    <button type="submit" style="background-color: var(--primary-blue); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; width: 100%;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 FameAir. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Passenger counter functionality
+            const adultsCount = document.getElementById('adults-count');
+            const childrenCount = document.getElementById('children-count');
+            
+            document.getElementById('increase-adults').addEventListener('click', function() {
+                let count = parseInt(adultsCount.textContent);
+                if (count < 9) {
+                    adultsCount.textContent = count + 1;
+                }
+            });
+            
+            document.getElementById('decrease-adults').addEventListener('click', function() {
+                let count = parseInt(adultsCount.textContent);
+                if (count > 1) {
+                    adultsCount.textContent = count - 1;
+                }
+            });
+            
+            document.getElementById('increase-children').addEventListener('click', function() {
+                let count = parseInt(childrenCount.textContent);
+                if (count < 8) {
+                    childrenCount.textContent = count + 1;
+                }
+            });
+            
+            document.getElementById('decrease-children').addEventListener('click', function() {
+                let count = parseInt(childrenCount.textContent);
+                if (count > 0) {
+                    childrenCount.textContent = count - 1;
+                }
+            });
+            
+            // Show/hide return date based on trip type
+            const tripTypeRadios = document.querySelectorAll('input[name="trip-type"]');
+            const returnDateGroup = document.getElementById('return-date-group');
+            const returnDateInput = document.getElementById('return');
+            
+            tripTypeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'oneway') {
+                        returnDateGroup.style.display = 'none';
+                        returnDateInput.removeAttribute('required');
+                    } else {
+                        returnDateGroup.style.display = 'block';
+                        returnDateInput.setAttribute('required', 'required');
+                    }
+                });
+            });
+            
+            // Set minimum date for departure and return
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('departure').setAttribute('min', today);
+            document.getElementById('return').setAttribute('min', today);
+            
+            // Form submission
+            document.getElementById('flight-search-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const from = document.getElementById('from').value;
+                const to = document.getElementById('to').value;
+                const departure = document.getElementById('departure').value;
+                
+                if (!from || !to || !departure) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // In a real application, this would submit the form to a server
+                // For this demo, we'll just show a confirmation message
+                alert('Searching for flights... This would redirect to flight results in a real application.');
+            });
+            
+            // Reset form
+            document.querySelector('.btn-secondary').addEventListener('click', function() {
+                document.getElementById('flight-search-form').reset();
+                adultsCount.textContent = '1';
+                childrenCount.textContent = '0';
+                returnDateGroup.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

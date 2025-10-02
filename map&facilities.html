@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maps & Facilities | FameAir</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0056b3;
+            --dark-blue: #003d82;
+            --light-blue: #e6f0ff;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #333333;
+            --text-gray: #666666;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--white);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                              url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Search Bar */
+        .search-section {
+            padding: 30px 0;
+            background-color: var(--light-gray);
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            display: flex;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .search-button {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: var(--dark-blue);
+        }
+
+        /* Tabs Navigation */
+        .tabs-section {
+            padding: 40px 0;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            background-color: var(--light-gray);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tab:hover {
+            background-color: var(--medium-gray);
+        }
+
+        .tab.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Terminal Maps */
+        .terminal-maps {
+            margin-bottom: 40px;
+        }
+
+        .terminal-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .terminal-btn {
+            padding: 10px 20px;
+            background-color: var(--light-gray);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .terminal-btn.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .map-container {
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .map-placeholder {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            position: relative;
+        }
+
+        .map-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Shops & Dining */
+        .shops-dining {
+            margin-bottom: 40px;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 16px;
+            background-color: var(--light-gray);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .facility-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .facility-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .facility-header {
+            padding: 20px;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .facility-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .facility-info {
+            flex: 1;
+        }
+
+        .facility-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .facility-location {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .facility-body {
+            padding: 20px;
+        }
+
+        .facility-details {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .facility-details li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .facility-details i {
+            color: var(--primary-blue);
+            width: 20px;
+        }
+
+        .status-open {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .status-closed {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        /* Services & Amenities */
+        .services-amenities {
+            margin-bottom: 40px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+        }
+
+        .service-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .service-description {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            padding: 50px 0;
+            text-align: center;
+            background-color: var(--light-gray);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 992px) {
+            .facilities-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-banner p {
+                font-size: 1rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .terminal-selector {
+                justify-content: center;
+            }
+            
+            .category-filters {
+                justify-content: center;
+            }
+            
+            .facilities-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .map-placeholder {
+                height: 300px;
+            }
+            
+            .facility-header {
+                padding: 15px;
+            }
+            
+            .facility-body {
+                padding: 15px;
+            }
+            
+            .service-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-plane-departure"></i>
+                FameAir
+            </a>
+            
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Flights <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="flight.html">Arrivals</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Departures</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Flight Tracker</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Airlines & Destinations</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Passenger Info <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="passenger-info.html">Check-in & Security</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Baggage</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Special Assistance</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Travel Guidelines</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Lost & Found</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Getting Here <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="getting-here.html">Parking</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Public Transport</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Taxis & Rides</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Car Rentals & Shuttles</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Maps & Facilities <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="map&facilities.html">Terminal Maps</a></li>
+                        <li class="dropdown-item"><a href="map&facilities.html">Shops & Dining</a></li>
+                        <li class="dropdown-item"><a href="map&facilities.html">Services & Amenities</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        About Us <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="about_us.html">Overview</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">News</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">Careers</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">Business & Investors</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="container">
+            <h1>Maps & Facilities</h1>
+            <p>Find your way around the airport and explore available services.</p>
+        </div>
+    </section>
+
+    <!-- Search Bar -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search for facilities, shops, or services...">
+                    <button class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs Navigation -->
+    <section class="tabs-section">
+        <div class="container">
+            <div class="tabs">
+                <button class="tab active" data-tab="terminal-maps">
+                    <i class="fas fa-map"></i> Terminal Maps
+                </button>
+                <button class="tab" data-tab="shops-dining">
+                    <i class="fas fa-shopping-bag"></i> Shops & Dining
+                </button>
+                <button class="tab" data-tab="services-amenities">
+                    <i class="fas fa-concierge-bell"></i> Services & Amenities
+                </button>
+            </div>
+
+            <!-- Terminal Maps Tab -->
+            <div class="tab-content active" id="terminal-maps">
+                <div class="terminal-maps">
+                    <h2 class="section-title">Terminal Maps</h2>
+                    <p class="section-subtitle">Navigate through our terminals with interactive maps</p>
+                    
+                    <div class="terminal-selector">
+                        <button class="terminal-btn active" data-terminal="terminal1">Terminal 1</button>
+                        <button class="terminal-btn" data-terminal="terminal2">Terminal 2</button>
+                        <button class="terminal-btn" data-terminal="terminal3">Terminal 3</button>
+                        <button class="terminal-btn" data-terminal="terminal4">Terminal 4</button>
+                    </div>
+                    
+                    <div class="map-container">
+                        <div class="map-placeholder" id="terminal-map">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <h3>Interactive Terminal Map</h3>
+                            <p>Terminal 1 - Gates A1 to A20</p>
+                            <div class="map-controls">
+                                <button class="btn btn-small btn-secondary">
+                                    <i class="fas fa-search-plus"></i> Zoom In
+                                </button>
+                                <button class="btn btn-small btn-secondary">
+                                    <i class="fas fa-search-minus"></i> Zoom Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="map-legend">
+                        <h4>Map Legend</h4>
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px;">
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 15px; height: 15px; background-color: #0056b3; border-radius: 50%;"></div>
+                                <span>Gates</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 15px; height: 15px; background-color: #28a745; border-radius: 50%;"></div>
+                                <span>Dining</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 15px; height: 15px; background-color: #ffc107; border-radius: 50%;"></div>
+                                <span>Shops</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 15px; height: 15px; background-color: #dc3545; border-radius: 50%;"></div>
+                                <span>Services</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shops & Dining Tab -->
+            <div class="tab-content" id="shops-dining">
+                <div class="shops-dining">
+                    <h2 class="section-title">Shops & Dining</h2>
+                    <p class="section-subtitle">Discover a wide range of shopping and dining options</p>
+                    
+                    <div class="category-filters">
+                        <button class="category-btn active" data-category="all">All</button>
+                        <button class="category-btn" data-category="food">Food & Dining</button>
+                        <button class="category-btn" data-category="fashion">Fashion</button>
+                        <button class="category-btn" data-category="electronics">Electronics</button>
+                        <button class="category-btn" data-category="dutyfree">Duty Free</button>
+                    </div>
+                    
+                    <div class="facilities-grid">
+                        <div class="facility-card" data-category="food">
+                            <div class="facility-header">
+                                <div class="facility-icon">
+                                    <i class="fas fa-coffee"></i>
+                                </div>
+                                <div class="facility-info">
+                                    <div class="facility-name">SkyBucks Coffee</div>
+                                    <div class="facility-location">Terminal 1, Gate A5</div>
+                                </div>
+                            </div>
+                            <div class="facility-body">
+                                <ul class="facility-details">
+                                    <li>
+                                        <i class="fas fa-clock"></i>
+                                        <span>Hours: <span class="status-open">5:00 AM - 10:00 PM</span></span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-utensils"></i>
+                                        <span>Type: Coffee & Pastries</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-wifi"></i>
+                                        <span>Free WiFi Available</span>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-small btn-secondary">View Menu</button>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card" data-category="dutyfree">
+                            <div class="facility-header">
+                                <div class="facility-icon">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <div class="facility-info">
+                                    <div class="facility-name">Global Duty Free</div>
+                                    <div class="facility-location">Terminal 2, Departures</div>
+                                </div>
+                            </div>
+                            <div class="facility-body">
+                                <ul class="facility-details">
+                                    <li>
+                                        <i class="fas fa-clock"></i>
+                                        <span>Hours: <span class="status-open">24/7</span></span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-tags"></i>
+                                        <span>Type: Luxury Goods & Perfumes</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-passport"></i>
+                                        <span>Passport Required</span>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-small btn-secondary">Browse Products</button>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card" data-category="food">
+                            <div class="facility-header">
+                                <div class="facility-icon">
+                                    <i class="fas fa-hamburger"></i>
+                                </div>
+                                <div class="facility-info">
+                                    <div class="facility-name">Burger Junction</div>
+                                    <div class="facility-location">Terminal 3, Food Court</div>
+                                </div>
+                            </div>
+                            <div class="facility-body">
+                                <ul class="facility-details">
+                                    <li>
+                                        <i class="fas fa-clock"></i>
+                                        <span>Hours: <span class="status-open">10:00 AM - 11:00 PM</span></span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-utensils"></i>
+                                        <span>Type: Burgers & Fast Food</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-leaf"></i>
+                                        <span>Vegetarian Options Available</span>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-small btn-secondary">View Menu</button>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card" data-category="electronics">
+                            <div class="facility-header">
+                                <div class="facility-icon">
+                                    <i class="fas fa-laptop"></i>
+                                </div>
+                                <div class="facility-info">
+                                    <div class="facility-name">TechZone</div>
+                                    <div class="facility-location">Terminal 4, Gate D12</div>
+                                </div>
+                            </div>
+                            <div class="facility-body">
+                                <ul class="facility-details">
+                                    <li>
+                                        <i class="fas fa-clock"></i>
+                                        <span>Hours: <span class="status-open">7:00 AM - 10:00 PM</span></span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-mobile-alt"></i>
+                                        <span>Type: Electronics & Accessories</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-plug"></i>
+                                        <span>Device Charging Available</span>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-small btn-secondary">Browse Products</button>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card" data-category="fashion">
+                            <div class="facility-header">
+                                <div class="facility-icon">
+                                    <i class="fas fa-tshirt"></i>
+                                </div>
+                                <div class="facility-info">
+                                    <div class="facility-name">TravelStyle</div>
+                                    <div class="facility-location">Terminal 1, Gate A8</div>
+                                </div>
+                            </div>
+                            <div class="facility-body">
+                                <ul class="facility-details">
+                                    <li>
+                                        <i class="fas fa-clock"></i>
+                                        <span>Hours: <span class="status-open">8:00 AM - 9:00 PM</span></span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <span>Type: Travel Apparel & Accessories</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Tax-Free Shopping Available</span>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-small btn-secondary">Browse Collection</button>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-card" data-category="food">
+                            <div class="facility-header">
+                                <div class="facility-icon">
+                                    <i class="fas fa-wine-glass-alt"></i>
+                                </div>
+                                <div class="facility-info">
+                                    <div class="facility-name">SkyLounge Bar</div>
+                                    <div class="facility-location">Terminal 2, Lounge Area</div>
+                                </div>
+                            </div>
+                            <div class="facility-body">
+                                <ul class="facility-details">
+                                    <li>
+                                        <i class="fas fa-clock"></i>
+                                        <span>Hours: <span class="status-open">11:00 AM - 1:00 AM</span></span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-cocktail"></i>
+                                        <span>Type: Bar & Light Bites</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-tv"></i>
+                                        <span>Sports Screening Available</span>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-small btn-secondary">View Menu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services & Amenities Tab -->
+            <div class="tab-content" id="services-amenities">
+                <div class="services-amenities">
+                    <h2 class="section-title">Services & Amenities</h2>
+                    <p class="section-subtitle">Essential services to make your journey comfortable</p>
+                    
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-wifi"></i>
+                            </div>
+                            <div class="service-name">Free WiFi</div>
+                            <div class="service-description">Complimentary high-speed internet access throughout the airport</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-plug"></i>
+                            </div>
+                            <div class="service-name">Charging Stations</div>
+                            <div class="service-description">USB and power outlets available near all gates</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="service-name">ATMs & Currency Exchange</div>
+                            <div class="service-description">Multiple locations in all terminals</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-briefcase-medical"></i>
+                            </div>
+                            <div class="service-name">Medical Services</div>
+                            <div class="service-description">First aid and medical assistance available 24/7</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-pray"></i>
+                            </div>
+                            <div class="service-name">Prayer Rooms</div>
+                            <div class="service-description">Multi-faith prayer rooms in all terminals</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                            <div class="service-name">Baby Care Facilities</div>
+                            <div class="service-description">Nursing rooms and changing facilities</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-wheelchair"></i>
+                            </div>
+                            <div class="service-name">Accessibility Services</div>
+                            <div class="service-description">Wheelchair assistance and accessible facilities</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-suitcase-rolling"></i>
+                            </div>
+                            <div class="service-name">Luggage Storage</div>
+                            <div class="service-description">Secure storage for your belongings</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="section-title">Need More Information?</h2>
+            <p>Download our terminal maps or explore our shopping and dining options</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Download Terminal Map (PDF)</a>
+                <a href="map&facilities.html" class="btn btn-secondary" id="explore-shops-btn">Explore Shops & Dining</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="flight.html">Flights</a></li>
+                    <li><a href="passenger-info.html">Passenger Info</a></li>
+                    <li><a href="getting-here.html">Getting Here</a></li>
+                    <li><a href="map&facilities.html">Maps & Facilities</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Details</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> info@fameair.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Airport, City, State 12345</p>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for the latest updates and travel information.</p>
+                <form style="margin-top: 15px;">
+                    <input type="email" placeholder="Your email address" style="padding: 10px; width: 100%; border: none; border-radius: 4px; margin-bottom: 10px;">
+                    <button type="submit" style="background-color: var(--primary-blue); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; width: 100%;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 FameAir. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Terminal selector functionality
+            const terminalBtns = document.querySelectorAll('.terminal-btn');
+            const terminalMap = document.getElementById('terminal-map');
+            
+            terminalBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all terminal buttons
+                    terminalBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    // Update map display
+                    const terminal = btn.getAttribute('data-terminal');
+                    const terminalName = btn.textContent;
+                    terminalMap.querySelector('p').textContent = `${terminalName} - Gates ${getGatesForTerminal(terminal)}`;
+                });
+            });
+            
+            // Category filter functionality
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const facilityCards = document.querySelectorAll('.facility-card');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all category buttons
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    // Filter facility cards
+                    const category = btn.getAttribute('data-category');
+                    
+                    facilityCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            const searchButton = document.querySelector('.search-button');
+            
+            function performSearch() {
+                const query = searchInput.value.toLowerCase().trim();
+                
+                if (query === '') {
+                    // Show all facilities if search is empty
+                    facilityCards.forEach(card => {
+                        card.style.display = 'block';
+                    });
+                    return;
+                }
+                
+                // Search in facility names and categories
+                facilityCards.forEach(card => {
+                    const facilityName = card.querySelector('.facility-name').textContent.toLowerCase();
+                    const facilityLocation = card.querySelector('.facility-location').textContent.toLowerCase();
+                    const facilityType = card.querySelector('.facility-details li:nth-child(2) span').textContent.toLowerCase();
+                    
+                    if (facilityName.includes(query) || facilityLocation.includes(query) || facilityType.includes(query)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Explore shops button functionality
+            document.getElementById('explore-shops-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Switch to shops & dining tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                document.querySelector('[data-tab="shops-dining"]').classList.add('active');
+                document.getElementById('shops-dining').classList.add('active');
+                
+                // Scroll to the section
+                document.getElementById('shops-dining').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Helper function to get gates for terminal
+            function getGatesForTerminal(terminal) {
+                const gates = {
+                    'terminal1': 'A1 to A20',
+                    'terminal2': 'B1 to B25',
+                    'terminal3': 'C1 to C30',
+                    'terminal4': 'D1 to D15'
+                };
+                return gates[terminal] || 'A1 to A20';
+            }
+        });
+    </script>
+</body>
+</html>

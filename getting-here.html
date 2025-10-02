@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Here | FameAir</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0056b3;
+            --dark-blue: #003d82;
+            --light-blue: #e6f0ff;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #333333;
+            --text-gray: #666666;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--white);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                              url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Transport Options */
+        .transport-section {
+            padding: 50px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--dark-gray);
+        }
+
+        .transport-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .transport-tab {
+            padding: 15px 25px;
+            background-color: var(--light-gray);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .transport-tab:hover {
+            background-color: var(--medium-gray);
+        }
+
+        .transport-tab.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .transport-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .transport-content.active {
+            display: block;
+        }
+
+        /* Cards Layout */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            padding: 20px;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .card-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-list li:last-child {
+            border-bottom: none;
+        }
+
+        .card-list .price {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 50px 0;
+            background-color: var(--light-gray);
+        }
+
+        .map-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .map-placeholder {
+            background-color: var(--medium-gray);
+            height: 400px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+        }
+
+        .map-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .address-info {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .address-info h3 {
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .address-details {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .address-details li {
+            padding: 10px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .address-details i {
+            color: var(--primary-blue);
+            margin-top: 4px;
+        }
+
+        /* Rental Companies */
+        .rental-companies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .company-logo {
+            background-color: var(--light-gray);
+            height: 80px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-gray);
+            transition: all 0.3s ease;
+        }
+
+        .company-logo:hover {
+            background-color: var(--medium-gray);
+            transform: scale(1.05);
+        }
+
+        /* Call to Action */
+        .cta-section {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 992px) {
+            .map-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .rental-companies {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-banner p {
+                font-size: 1rem;
+            }
+            
+            .transport-tabs {
+                flex-direction: column;
+            }
+            
+            .transport-tab {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .card-header {
+                padding: 15px;
+            }
+            
+            .card-body {
+                padding: 15px;
+            }
+            
+            .map-placeholder {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-plane-departure"></i>
+                FameAir
+            </a>
+            
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Flights <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="flight.html">Arrivals</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Departures</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Flight Tracker</a></li>
+                        <li class="dropdown-item"><a href="flight.html">Airlines & Destinations</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Passenger Info <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="passenger-info.html">Check-in & Security</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Baggage</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Special Assistance</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Travel Guidelines</a></li>
+                        <li class="dropdown-item"><a href="passenger-info.html">Lost & Found</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Getting Here <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="getting-here.html">Parking</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Public Transport</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Taxis & Rides</a></li>
+                        <li class="dropdown-item"><a href="getting-here.html">Car Rentals & Shuttles</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        Maps & Facilities <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="map&facilities.html">Terminal Maps</a></li>
+                        <li class="dropdown-item"><a href="map&facilities.html">Shops & Dining</a></li>
+                        <li class="dropdown-item"><a href="map&facilities.html">Services & Amenities</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        About Us <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="about_us.html">Overview</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">News</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">Careers</a></li>
+                        <li class="dropdown-item"><a href="about_us.html">Business & Investors</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="container">
+            <h1>Getting To & From the Airport</h1>
+            <p>Find the best transport and parking options for your journey.</p>
+        </div>
+    </section>
+
+    <!-- Transport Options -->
+    <section class="transport-section">
+        <div class="container">
+            <h2 class="section-title">Transport Options</h2>
+            
+            <div class="transport-tabs">
+                <button class="transport-tab active" data-tab="parking">
+                    <i class="fas fa-parking"></i> Parking
+                </button>
+                <button class="transport-tab" data-tab="public-transport">
+                    <i class="fas fa-bus"></i> Public Transport
+                </button>
+                <button class="transport-tab" data-tab="taxis">
+                    <i class="fas fa-taxi"></i> Taxis & Ride-Sharing
+                </button>
+                <button class="transport-tab" data-tab="rentals">
+                    <i class="fas fa-car"></i> Car Rentals & Shuttles
+                </button>
+            </div>
+
+            <!-- Parking Tab -->
+            <div class="transport-content active" id="parking">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="card-title">Short-Term Parking</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Perfect for pick-ups, drop-offs, and visits under 24 hours.</p>
+                            <ul class="card-list">
+                                <li>First 30 minutes <span class="price">Free</span></li>
+                                <li>1 hour <span class="price">$5</span></li>
+                                <li>2 hours <span class="price">$10</span></li>
+                                <li>Daily maximum <span class="price">$40</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">Book Parking</button>
+                                <button class="btn btn-secondary btn-small">Check Availability</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <div class="card-title">Long-Term Parking</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Economical option for extended trips with shuttle service to terminals.</p>
+                            <ul class="card-list">
+                                <li>Daily rate <span class="price">$15</span></li>
+                                <li>Weekly rate <span class="price">$90</span></li>
+                                <li>Monthly rate <span class="price">$300</span></li>
+                                <li>Free shuttle <span class="price">Every 10 min</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">Book Parking</button>
+                                <button class="btn btn-secondary btn-small">Check Availability</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="card-title">Premium Parking</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Closest to terminals with valet service and car care options.</p>
+                            <ul class="card-list">
+                                <li>Daily rate <span class="price">$35</span></li>
+                                <li>Valet service <span class="price">Included</span></li>
+                                <li>Car wash <span class="price">$25</span></li>
+                                <li>EV charging <span class="price">Available</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">Book Parking</button>
+                                <button class="btn btn-secondary btn-small">Check Availability</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Public Transport Tab -->
+            <div class="transport-content" id="public-transport">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-train"></i>
+                            </div>
+                            <div class="card-title">Airport Express Train</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Fast and direct connection to downtown in 25 minutes.</p>
+                            <ul class="card-list">
+                                <li>Frequency <span>Every 15 min</span></li>
+                                <li>Travel time <span>25 min</span></li>
+                                <li>First train <span>5:00 AM</span></li>
+                                <li>Last train <span>12:00 AM</span></li>
+                                <li>Ticket price <span class="price">$18</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">View Schedule</button>
+                                <button class="btn btn-secondary btn-small">Buy Tickets</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-bus"></i>
+                            </div>
+                            <div class="card-title">Airport Shuttle Bus</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Connecting the airport with major hotels and city centers.</p>
+                            <ul class="card-list">
+                                <li>Frequency <span>Every 20 min</span></li>
+                                <li>Travel time <span>45 min</span></li>
+                                <li>First bus <span>4:30 AM</span></li>
+                                <li>Last bus <span>11:30 PM</span></li>
+                                <li>Ticket price <span class="price">$12</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">View Schedule</button>
+                                <button class="btn btn-secondary btn-small">Buy Tickets</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-subway"></i>
+                            </div>
+                            <div class="card-title">Metro Connection</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Affordable metro service with connections throughout the city.</p>
+                            <ul class="card-list">
+                                <li>Frequency <span>Every 10 min</span></li>
+                                <li>Travel time <span>35 min</span></li>
+                                <li>First train <span>5:15 AM</span></li>
+                                <li>Last train <span>1:00 AM</span></li>
+                                <li>Ticket price <span class="price">$3.50</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">View Schedule</button>
+                                <button class="btn btn-secondary btn-small">Buy Tickets</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Taxis & Ride-Sharing Tab -->
+            <div class="transport-content" id="taxis">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-taxi"></i>
+                            </div>
+                            <div class="card-title">Licensed Taxis</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Available 24/7 at designated taxi ranks outside all terminals.</p>
+                            <ul class="card-list">
+                                <li>Initial charge <span class="price">$3.50</span></li>
+                                <li>Per mile <span class="price">$2.75</span></li>
+                                <li>To downtown <span class="price">~$45</span></li>
+                                <li>Waiting time <span class="price">$0.50/min</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">Pre-book Taxi</button>
+                                <button class="btn btn-secondary btn-small">Fare Calculator</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                            <div class="card-title">Ride-Sharing</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Uber, Lyft, and Bolt services available at designated pickup zones.</p>
+                            <ul class="card-list">
+                                <li>UberX to downtown <span class="price">~$35</span></li>
+                                <li>UberXL to downtown <span class="price">~$55</span></li>
+                                <li>Lyft to downtown <span class="price">~$32</span></li>
+                                <li>Bolt to downtown <span class="price">~$30</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">Open Uber</button>
+                                <button class="btn btn-secondary btn-small">Open Lyft</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="card-title">Pickup Locations</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Designated pickup zones for all transport services.</p>
+                            <ul class="card-list">
+                                <li>Taxis <span>Terminal 1, Arrivals Level</span></li>
+                                <li>Uber/Lyft <span>Terminal 2, Level 1</span></li>
+                                <li>Shuttles <span>All terminals, Ground Transport</span></li>
+                                <li>Private pickups <span>Cell Phone Waiting Lot</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">View Map</button>
+                                <button class="btn btn-secondary btn-small">Get Directions</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Car Rentals & Shuttles Tab -->
+            <div class="transport-content" id="rentals">
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="card-title">Car Rental Companies</div>
+                        </div>
+                        <div class="card-body">
+                            <p>All rental car counters are located in the Rental Car Center, accessible via free shuttle from all terminals.</p>
+                            
+                            <div class="rental-companies">
+                                <div class="company-logo">Hertz</div>
+                                <div class="company-logo">Avis</div>
+                                <div class="company-logo">Enterprise</div>
+                                <div class="company-logo">Budget</div>
+                                <div class="company-logo">Alamo</div>
+                                <div class="company-logo">National</div>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">Compare Rates</button>
+                                <button class="btn btn-secondary btn-small">View Shuttle Info</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-hotel"></i>
+                            </div>
+                            <div class="card-title">Hotel Shuttles</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Complimentary shuttle services to nearby hotels and resorts.</p>
+                            <ul class="card-list">
+                                <li>Airport Hotel Express <span>Every 15 min</span></li>
+                                <li>Downtown Hotels <span>Every 30 min</span></li>
+                                <li>Resort Area <span>Every 45 min</span></li>
+                                <li>Service hours <span>5:00 AM - 12:00 AM</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">View Hotel List</button>
+                                <button class="btn btn-secondary btn-small">Shuttle Map</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-shuttle-van"></i>
+                            </div>
+                            <div class="card-title">Private Shuttles</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Pre-booked private and shared shuttle services.</p>
+                            <ul class="card-list">
+                                <li>Shared shuttle to downtown <span class="price">$25</span></li>
+                                <li>Private van (up to 8) <span class="price">$85</span></li>
+                                <li>Luxury sedan <span class="price">$120</span></li>
+                                <li>Book in advance <span>Recommended</span></li>
+                            </ul>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-small">Book Shuttle</button>
+                                <button class="btn btn-secondary btn-small">Get Quote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 class="section-title">Airport Location</h2>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>Interactive Airport Map</h3>
+                    <p>Google Maps integration would appear here</p>
+                </div>
+                <div class="address-info">
+                    <h3>Airport Address & Contact</h3>
+                    <ul class="address-details">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>SkyHarbor International Airport</strong><br>
+                                123 Airport Boulevard<br>
+                                City, State 12345
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <div>+1 (555) 123-4567</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <div>info@skyharbor.com</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-road"></i>
+                            <div>Exit 45B from Interstate 95</div>
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary">Get Directions</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="section-title">Ready to Travel?</h2>
+            <p>Plan your complete journey with our travel tools and resources.</p>
+            <div class="cta-buttons">
+                <a href="book-flight.html" class="btn btn-primary">Plan Your Trip</a>
+                <a href="#" class="btn btn-secondary">Download Directions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="flight.html">Flights</a></li>
+                    <li><a href="passenger-info.html">Passenger Info</a></li>
+                    <li><a href="getting-here.html">Getting Here</a></li>
+                    <li><a href="map&facilities.html">Maps & Facilities</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Details</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> info@fameair.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Airport, City, State 12345</p>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for the latest updates and travel information.</p>
+                <form style="margin-top: 15px;">
+                    <input type="email" placeholder="Your email address" style="padding: 10px; width: 100%; border: none; border-radius: 4px; margin-bottom: 10px;">
+                    <button type="submit" style="background-color: var(--primary-blue); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; width: 100%;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 FameAir. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const transportTabs = document.querySelectorAll('.transport-tab');
+            const transportContents = document.querySelectorAll('.transport-content');
+            
+            transportTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    transportTabs.forEach(t => t.classList.remove('active'));
+                    transportContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Simulate booking actions
+            const bookButtons = document.querySelectorAll('.btn-primary');
+            bookButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.textContent.includes('Book')) {
+                        e.preventDefault();
+                        alert('This would redirect to the booking system in a real application.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
